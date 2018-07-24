@@ -1,5 +1,3 @@
-# Commented sections below can be used to run tests on the CI server
-# https://simulatedgreg.gitbooks.io/electron-vue/content/en/testing.html#on-the-subject-of-ci-testing
 osx_image: xcode8.3
 sudo: required
 dist: trusty
@@ -20,24 +18,29 @@ addons:
     packages:
     - libgnome-keyring-dev
     - icnsutils
-    #- xvfb
 before_install:
 - mkdir -p /tmp/git-lfs && curl -L https://github.com/github/git-lfs/releases/download/v1.2.1/git-lfs-$([
   "$TRAVIS_OS_NAME" == "linux" ] && echo "linux" || echo "darwin")-amd64-1.2.1.tar.gz
   | tar -xz -C /tmp/git-lfs --strip-components 1 && /tmp/git-lfs/git-lfs pull
-- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install --no-install-recommends -y icnsutils graphicsmagick xz-utils; fi
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install --no-install-recommends
+  -y icnsutils graphicsmagick xz-utils; fi
 install:
-#- export DISPLAY=':99.0'
-#- Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
 - nvm install 7
 - curl -o- -L https://yarnpkg.com/install.sh | bash
 - source ~/.bashrc
 - npm install -g xvfb-maybe
 - yarn
 script:
-#- xvfb-maybe node_modules/.bin/karma start test/unit/karma.conf.js
-#- yarn run pack && xvfb-maybe node_modules/.bin/mocha test/e2e
 - yarn run build
 branches:
   only:
   - master
+deploy:
+  provider: releases
+  api_key:
+    secure: EwtB3oNcoZhz272TFhC3rd7cEvz+mpIU0EPhGTAioOacldT28EUWxITNw0IcFhgxR3Ex0uShi23shktXhTlK5yc3eDpfkhaf5ZS84aQnRmEYNhSL4C4n8hCKNlC445Mqhipd9vxaolZzoiq43JZIfeyAWpcMt63zeL2C1xWFl83BAMaJlAyHWonATCSzln9uHUiqFhZcd+prIFkaglM16bhzrrS2HnBhyapDlD0+61itTS+g5zpCiO7oGQZloxJXOiEcRSt9+6rWSibjfPnoNkuWj7Je2XnOZYgMgTyBkHKBrGbKrmjNRL10CgdIEo+NTFfxQAVkH4epNWMXVMwHs4HQ2QErxtDkhZ4l49Q5ZoIdkzXUEz0qXYAjaawlgJHqyKvzAyL9iLauTIDnIz/gPIYvBLSCI8CWBaCWKiQvUE4CMkQE0+4aCl6xwqrhkdu4RJ3uBfcAM4TBlKd8rY4nP6yihW1GwhwDjW1vUlWENEvxviqqjYWLpriTkP4VsffDkB5H7fhdPMqGbWozpSvfBgF6uPAVBquFiPsiD4GgOe2QuRSJHbAxWmwo5Knu6W2DOJgMIo7ITnjqsYrTSKvmvAkwW5Uy8hQxQZl9sNQszs7PiIOcjKHBhfbZHliFDme3JZ1z+EWocbBL7MOBKBVNc4CBaMby+fK2jLs0+qAZ6fw=
+  file: base_classroom
+  skip_cleanup: true
+  on:
+    repo: basejy/base_classroom
+    
