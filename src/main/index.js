@@ -12,8 +12,13 @@ if (process.env.NODE_ENV !== 'development') {
 
 let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
+  ? `https://www.basejy.net/manage`
+  : `http://www.basejy.com/`
+
+/*
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
+*/
 
 function createWindow () {
   /**
