@@ -13,7 +13,11 @@ if (process.env.NODE_ENV !== 'development') {
 let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
   ? `https://192.168.1.146/manage`
+  : `https://192.168.1.146/manage`
+/* 正式地址
+  ? `https://192.168.1.146/manage`
   : `https://www.basejy.net/manage`
+*/
 
 /* 正式地址
   ? `https://www.basejy.net/manage`
